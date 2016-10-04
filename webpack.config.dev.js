@@ -17,6 +17,9 @@ module.exports = {
       test: /\.(js|jsx)$/,
       include: path.join(__dirname, 'client'),
       loaders: ['babel']
+    }, { 
+      test: /\.less$/,
+      loader: "style!css!less"
     }]
   },
   plugins: [
