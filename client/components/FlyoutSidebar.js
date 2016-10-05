@@ -1,20 +1,42 @@
 import React from 'react';
 
-const FlyoutSidebar = (props) => {
-	Object.assign(props, {isOpen: flase});
+class FlyoutSidebar extends React.Component {
+	constructor(props) {
+		super(props);
 
-	const className = `flyout-sidebar ${props.isOpen ? "open" : "closed"}`;
+		this.state = {
+			isOpen: props.isOpen,
+			boo: "Boo!"
+		};
 
-	return (
-		<div className={className}>
-			<div className="flyout-sidebar-header">
-				{props.sidebarName}
+		this.changeOpenState = this.changeOpenState.bind(this);
+		this.getClassName = this.getClassName.bind(this);
+	}	
+
+	changeOpenState() {
+		this.setState({
+			isOpen: !this.state.isOpen
+		});
+	}
+
+	getClassName() {
+		return `flyout-sidebar ${this.state.isOpen ? "open" : "closed"}`;
+	}
+
+	render() {
+		return (
+			<div className={this.getClassName()}>
+				<div 
+					className="flyout-sidebar-header"
+					onClick={this.changeOpenState}>
+					{this.props.sidebarName}
+				</div>
+				<div className="flyout-sidebar-content">
+					{this.props.children}
+				</div>
 			</div>
-			<div className="flyout-sidebar-content">
-				Content
-			</div>
-		</div>
-	);
+		);
+	}
 };
 
 export default FlyoutSidebar;
