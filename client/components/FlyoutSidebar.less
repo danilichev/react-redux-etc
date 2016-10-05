@@ -1,0 +1,29 @@
+@sidebar-width: 360px;
+@sidebar-header-height: 40px;
+
+.flyout-sidebar {
+	position: absolute;
+	top: 0;
+	width: @sidebar-width;
+	height: 100%;
+
+	&.open {
+		left: 0;
+	}
+
+	&.closed {
+		left: -@sidebar-width;
+	}
+
+	.flyout-sidebar-header {
+		width: inherit;
+		height: @sidebar-header-height;
+		background-color: #607D8B;
+	}
+
+	.flyout-sidebar-content {
+		width: inherit;
+		height: ~"calc(100% - @{sidebar-header-height})";
+		background-color: #CFD8DC;	
+	}
+}
