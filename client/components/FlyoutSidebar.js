@@ -5,8 +5,7 @@ class FlyoutSidebar extends React.Component {
 		super(props);
 
 		this.state = {
-			isOpen: props.isOpen,
-			boo: "Boo!"
+			isOpen: props.isOpen
 		};
 
 		this.changeOpenState = this.changeOpenState.bind(this);
