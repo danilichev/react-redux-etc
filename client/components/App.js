@@ -9,19 +9,29 @@ class App extends React.Component {
   }
 
   render() {
-  return (
-    <div className="app">
-      <div className="toggle-sidebar">
-        <button onClick={() => this.refs.sidebar.openSidebar('Title', 'Content')}>
-          Open Sidebar
-        </button>
-        <button onClick={() => this.refs.sidebar.closeSidebar()}>
-          Close Sidebar
-        </button>
+    const secondSlide = {
+      title: 'Slide#2',
+      content: 'Bingo!'
+    };
+
+    const firstSlide = {
+      title: 'Slide#1',
+      content: <button onClick={() => this.refs.sidebar.setNextSlide(secondSlide)}>Show new slide</button>
+    };
+
+    return (
+      <div className="app">
+        <div className="toggle-sidebar">
+          <button onClick={() => this.refs.sidebar.openSidebar(firstSlide)}>
+            Open Sidebar
+          </button>
+          <button onClick={() => this.refs.sidebar.closeSidebar()}>
+            Close Sidebar
+          </button>
+        </div>
+        <SlidingSidebar ref="sidebar"/>
       </div>
-      <SlidingSidebar ref="sidebar"/>
-    </div>
-  );
+    );
   }
 }
 
