@@ -41,9 +41,9 @@ class SlidingSidebar extends React.Component {
 		return (
 			<div className="flyout-sidebar">
 				<ReactCSSTransitionGroup 
-          transitionName="example" 
-          transitionEnterTimeout={1000} 
-          transitionLeaveTimeout={1000}>
+          transitionName="sidebar-toggling" 
+          transitionEnterTimeout={500} 
+          transitionLeaveTimeout={500}>
           {slide ? <Slide key={slide._id} title={slide.title}>{slide.content}</Slide> : null}
         </ReactCSSTransitionGroup>
 			</div>
