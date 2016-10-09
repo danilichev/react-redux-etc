@@ -9,18 +9,18 @@
 	height: 100%;
 }
 
-.sidebar-toggling-enter {
+.toggle-sidebar-enter {
   transform: translate(-@sidebar-width);
   transition: @transition;
 }
 
-.sidebar-toggling-enter.sidebar-toggling-enter-active {
+.toggle-sidebar-enter.toggle-sidebar-enter-active {
   transform: translate(0);
   transition: @transition; 
 }
 
-.sidebar-toggling-leave.sidebar-toggling-leave-active,
-.sidebar-toggling-leave {
+.toggle-sidebar-leave.toggle-sidebar-leave-active,
+.toggle-sidebar-leave {
   transform: translate(-@sidebar-width);
   transition: @transition;
 }
