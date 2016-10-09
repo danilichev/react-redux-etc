@@ -1,26 +1,24 @@
-
 import React from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import FlyoutSidebar from './FlyoutSidebar.js';
+import SlidingSidebar from './SlidingSidebar.js';
 import loremIpsum from '../data/lorem-ipsum.js';
+import './App.less';
 
 class App extends React.Component {
-	constructor(props) {
-		super(props);
-	}
+  constructor(props) {
+    super(props);
+  }
 
   render() {
-    return (
-    	<div className="app">
-    		<button 
-    			className="toggle-sidebar"
-    			onClick={() => this.refs.sidebar.toggleSidebar()}
-    		>
-    			Show/hide Sidebar
-    		</button>
-    		<FlyoutSidebar ref="sidebar"/>
-    	</div>
-    );
+  return (
+    <div className="app">
+      <button 
+        className="toggle-sidebar"
+        onClick={() => this.refs.sidebar.openSidebar('Title', 'Content')}>
+        Show/hide Sidebar
+      </button>
+      <SlidingSidebar ref="sidebar"/>
+    </div>
+  );
   }
 }
 
