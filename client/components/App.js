@@ -11,11 +11,14 @@ class App extends React.Component {
   render() {
   return (
     <div className="app">
-      <button 
-        className="toggle-sidebar"
-        onClick={() => this.refs.sidebar.openSidebar('Title', 'Content')}>
-        Show/hide Sidebar
-      </button>
+      <div className="toggle-sidebar">
+        <button onClick={() => this.refs.sidebar.openSidebar('Title', 'Content')}>
+          Open Sidebar
+        </button>
+        <button onClick={() => this.refs.sidebar.closeSidebar()}>
+          Close Sidebar
+        </button>
+      </div>
       <SlidingSidebar ref="sidebar"/>
     </div>
   );
