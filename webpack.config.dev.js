@@ -19,7 +19,7 @@ module.exports = {
       loaders: ['babel']
     }, { 
       test: /\.less$/,
-      loader: "style!css!less"
+      loader: "style!css!autoprefixer!less"
     }]
   },
   plugins: [
