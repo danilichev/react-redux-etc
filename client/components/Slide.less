@@ -1,0 +1,36 @@
+@slide-width: 320px;
+@slide-header-height: 40px;
+
+.slide {
+	position: relative;
+	width: @slide-width;
+	height: 100%;
+
+	.slide-header {
+		width: inherit;
+		height: @slide-header-height;
+		background-color: #607D8B;
+	}
+
+	.slide-content {
+		width: inherit;
+		height: ~"calc(100% - @{slide-header-height})";
+		background-color: #CFD8DC;	
+	}
+}
+
+
+.example-enter {
+  opacity: 0.01;
+}
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.example-leave {
+  opacity: 1;
+}
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
