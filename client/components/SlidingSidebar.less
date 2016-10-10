@@ -1,45 +1,59 @@
 @sidebar-width: 320px;
 @transition: transform 500ms ease-in-out;
 
-.flyout-sidebar {
+.sliding-sidebar {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: @sidebar-width;
+	width: 0;
 	height: 50%;
+  // display: inline-table;
   // overflow: hidden;
   background-color: white;
 
-  .toggle-sidebar-enter {
-    transform: translate(-@sidebar-width);
-    transition: @transition;
-  
-    &.toggle-sidebar-enter-active {
-      transform: translate(0);
-      transition: @transition; 
-    }
-  }
-  
-  .toggle-sidebar-leave.toggle-sidebar-leave-active,
-  .toggle-sidebar-leave {
-    transform: translate(-@sidebar-width);
-    transition: @transition;
-  }
-  
-  
-  .toggle-slide-next-enter {
-    transform: translate(@sidebar-width);
-    transition: @transition;
-  
-    &.toggle-slide-next-enter-active {
-      transform: translate(0);
-      transition: @transition; 
+  &.open {
+    width: @sidebar-width;
+
+    .slider-wrapper {
+      width: 2 * @sidebar-width;
     }
   }
 
-  .toggle-slide-next-leave.toggle-slide-next-leave-active,
-  .toggle-slide-next-leave {
-    transform: translate(-@sidebar-width);
+  .slider-wrapper {
+    height: 100%;
+    display: inline-table;
+  }
+
+  .transition-right-enter {
+    float: right;
+    transform: translate3d(-@sidebar-width, 0, 0);
+    transition: @transition;
+  
+    &.transition-right-enter-active {
+      transform: translate3d(0, 0, 0);
+      transition: @transition; 
+    }
+  }
+  
+  .transition-right-leave.transition-right-leave-active,
+  .transition-right-leave {
+    transform: translate3d(@sidebar-width, 0, 0);
+    transition: @transition;
+  }
+
+  .transition-left-enter {
+    transform: translate3d(@sidebar-width, 0, 0);
+    transition: @transition;
+  
+    &.transition-left-enter-active {
+      transform: translate3d(0, 0, 0);
+      transition: @transition; 
+    }
+  }
+  
+  .transition-left-leave.transition-left-leave-active,
+  .transition-left-leave {
+    transform: translate3d(-@sidebar-width, 0, 0);
     transition: @transition;
   }
 }

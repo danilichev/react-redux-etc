@@ -4,85 +4,91 @@ import Slide from './Slide';
 import './SlidingSidebar.less'
 
 class SlidingSidebar extends React.Component {
-	constructor(props) {
-		super(props);
+  constructor(props) {
+    super(props);
 
-		this.TOGGLE_SIDEBAR = 'toggle-sidebar';
-		this.TOGGLE_SLIDE_NEXT = 'toggle-slide-next';
-		this.TOGGLE_SLIDE_PREV = 'toggle-slide-prev';
+    this.TRANSITION_TIMEOUT = 500;
+    this.TRANSITION_TO_LEFT = 'transition-left';
+    this.TRANSITION_TO_RIGHT = 'transition-right';
 
-		this.state = {
-			transition: this.TOGGLE_SIDEBAR,
-			slides: []
-		}
+    this.state = {
+    	isSidebarOpen: false,
+      slides: [],
+      slideTransition: this.TRANSITION_TO_RIGHT
+    }
 
-		this._setSlide = this._setSlide.bind(this);
-		this.openSidebar = this.openSidebar.bind(this);
-		this.closeSidebar = this.closeSidebar.bind(this);
-		this.getLastSlide = this.getLastSlide.bind(this);
-		this.setNextSlide = this.setNextSlide.bind(this);
-		this.setPrevSlide = this.setPrevSlide.bind(this);
-	}
+    this._getLastSlide = this._getLastSlide.bind(this);
+    this._removeAllSlides = this._removeAllSlides.bind(this);
+    this.openSidebar = this.openSidebar.bind(this);
+    this.closeSidebar = this.closeSidebar.bind(this);
+    this.setNextSlide = this.setNextSlide.bind(this);
+    this.setPrevSlide = this.setPrevSlide.bind(this);
+  }
 
-	_setSlide(slide, transition) {
-		const slides = this.state.slides;
-		const nextSlide = { 
-			_id: slides.length,
-			title: slide.title, 
-			content: slide.content
-		};
+  _getLastSlide() {
+    const slides = this.state.slides;
+    return slides.length > 0 ? slides[slides.length - 1] : null;
+  }
 
-		this.setState({
-			transition,
-			slides: slides.concat(nextSlide)
-		});
-	}
+  _removeAllSlides() {
+  	this.setState({
+  		slides: [],
+  		slideTransition: this.TRANSITION_TO_LEFT
+  	});
+  }
 
-	openSidebar(slide) {
-		this._setSlide(slide, this.TOGGLE_SIDEBAR);
-	}
+  openSidebar(slide) {
+    this.setState({
+    	isSidebarOpen: true,
+    });
 
-	closeSidebar() {
-		const transition = this.TOGGLE_SIDEBAR;
-		this.setState({
-			slides: [],
-			transition
-		});
-	}
+    this.setNextSlide(slide, this.TRANSITION_TO_RIGHT);
+  }
 
-	getLastSlide() {
-		const slides = this.state.slides;
-		return slides.length > 0 ? slides[slides.length - 1] : null;
-	}
+  closeSidebar() {
+  	this._removeAllSlides();
 
-	setNextSlide(slide) {
-		this._setSlide(slide, this.TOGGLE_SLIDE_NEXT);
-	}
+    setTimeout(() => this.setState({
+    	isSidebarOpen: false
+    }), this.TRANSITION_TIMEOUT);
+  }
 
-	setPrevSlide() {}
+  setNextSlide(slide, slideTransition = this.TRANSITION_TO_LEFT) {
+  	const slides = this.state.slides;
+    const newSlide = Object.assign(slide, { _id: slides.length });
 
-	render() {
-		const slide = this.getLastSlide();
+    this.setState({
+    	slides: slides.concat(newSlide),
+    	slideTransition
+    });
+  }
 
-		return (
-			<div className="flyout-sidebar">
-				<ReactCSSTransitionGroup 
-          transitionName={this.state.transition} 
-          transitionEnterTimeout={500} 
-          transitionLeaveTimeout={500}>
+  setPrevSlide() {}
+
+  render() {
+    const slide = this._getLastSlide();
+
+    return (
+      <div className={`sliding-sidebar ${this.state.isSidebarOpen ? 'open' : ''}`}>
+        <ReactCSSTransitionGroup 
+        	component="div"
+        	className="slider-wrapper"
+          transitionName={this.state.slideTransition} 
+          transitionEnterTimeout={this.TRANSITION_TIMEOUT} 
+          transitionLeaveTimeout={this.TRANSITION_TIMEOUT}>
           {slide ? 
-          	<Slide 
-          		key={slide._id} 
-          		title={slide.title} 
-          		goBack={this.closeSidebar}>
-          		{slide.content}
-          	</Slide> : 
-          	null
+            <Slide 
+              key={slide._id} 
+              title={slide.title} 
+              goBack={this.closeSidebar}>
+              {slide.content}
+            </Slide> : 
+            null
           }
         </ReactCSSTransitionGroup>
-			</div>
-		);
-	}
+      </div>
+    );
+  }
 }
 
 export default SlidingSidebar;
