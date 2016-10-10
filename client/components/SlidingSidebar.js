@@ -21,8 +21,8 @@ class SlidingSidebar extends React.Component {
     this._removeAllSlides = this._removeAllSlides.bind(this);
     this.openSidebar = this.openSidebar.bind(this);
     this.closeSidebar = this.closeSidebar.bind(this);
-    this.setNextSlide = this.setNextSlide.bind(this);
-    this.setPrevSlide = this.setPrevSlide.bind(this);
+    this.showNextSlide = this.showNextSlide.bind(this);
+    this.showPrevSlide = this.showPrevSlide.bind(this);
   }
 
   _getLastSlide() {
@@ -42,7 +42,7 @@ class SlidingSidebar extends React.Component {
     	isSidebarOpen: true,
     });
 
-    this.setNextSlide(slide, this.TRANSITION_TO_RIGHT);
+    this.showNextSlide(slide, this.TRANSITION_TO_RIGHT);
   }
 
   closeSidebar() {
@@ -53,7 +53,7 @@ class SlidingSidebar extends React.Component {
     }), this.TRANSITION_TIMEOUT);
   }
 
-  setNextSlide(slide, slideTransition = this.TRANSITION_TO_LEFT) {
+  showNextSlide(slide, slideTransition = this.TRANSITION_TO_LEFT) {
   	const slides = this.state.slides;
     const newSlide = Object.assign(slide, { _id: slides.length });
 
@@ -63,7 +63,7 @@ class SlidingSidebar extends React.Component {
     });
   }
 
-  setPrevSlide() {}
+  showPrevSlide() {}
 
   render() {
     const slide = this._getLastSlide();
