@@ -5,22 +5,41 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 0;
-	height: 100%;
-}
+	width: @sidebar-width;
+	height: 50%;
+  // overflow: hidden;
+  background-color: white;
 
-.toggle-sidebar-enter {
-  transform: translate(-@sidebar-width);
-  transition: @transition;
-}
+  .toggle-sidebar-enter {
+    transform: translate(-@sidebar-width);
+    transition: @transition;
+  
+    &.toggle-sidebar-enter-active {
+      transform: translate(0);
+      transition: @transition; 
+    }
+  }
+  
+  .toggle-sidebar-leave.toggle-sidebar-leave-active,
+  .toggle-sidebar-leave {
+    transform: translate(-@sidebar-width);
+    transition: @transition;
+  }
+  
+  
+  .toggle-slide-next-enter {
+    transform: translate(@sidebar-width);
+    transition: @transition;
+  
+    &.toggle-slide-next-enter-active {
+      transform: translate(0);
+      transition: @transition; 
+    }
+  }
 
-.toggle-sidebar-enter.toggle-sidebar-enter-active {
-  transform: translate(0);
-  transition: @transition; 
-}
-
-.toggle-sidebar-leave.toggle-sidebar-leave-active,
-.toggle-sidebar-leave {
-  transform: translate(-@sidebar-width);
-  transition: @transition;
+  .toggle-slide-next-leave.toggle-slide-next-leave-active,
+  .toggle-slide-next-leave {
+    transform: translate(-@sidebar-width);
+    transition: @transition;
+  }
 }
