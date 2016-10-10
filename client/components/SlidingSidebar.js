@@ -70,7 +70,7 @@ class SlidingSidebar extends React.Component {
 
     return (
       <div className={`sliding-sidebar ${this.state.isSidebarOpen ? 'open' : ''}`}>
-        <ReactCSSTransitionGroup 
+        <ReactCSSTransitionGroup
         	component="div"
         	className="slider-wrapper"
           transitionName={this.state.slideTransition} 

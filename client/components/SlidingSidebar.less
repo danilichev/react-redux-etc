@@ -1,31 +1,36 @@
 @sidebar-width: 320px;
-@transition: transform 500ms ease-in-out;
+@transition: transform 500ms ease-in;
 
 .sliding-sidebar {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 0;
-	height: 50%;
-  // display: inline-table;
-  // overflow: hidden;
+	height: 100%;
+  overflow: hidden;
   background-color: white;
 
   &.open {
     width: @sidebar-width;
-
-    .slider-wrapper {
-      width: 2 * @sidebar-width;
-    }
   }
 
   .slider-wrapper {
+    position: relative;
+    width: 200%;
     height: 100%;
-    display: inline-table;
+    background-color: #8BC34A;
+
+    .slide {
+      float: right;
+
+      &:first-child {
+        position: relative;
+        left: -50%;
+      }
+    }
   }
 
   .transition-right-enter {
-    float: right;
     transform: translate3d(-@sidebar-width, 0, 0);
     transition: @transition;
   
