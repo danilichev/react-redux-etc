@@ -28,7 +28,9 @@ class App extends React.Component {
     );
 
     const closeSidebarButton = (
-      <button onClick={() => this.setState({action: SlidingSidebarActions.CLOSE_SIDEBAR})}>
+      <button onClick={() => this.setState({
+          action: SlidingSidebarActions.CLOSE_SIDEBAR
+        })}>
         Close Sidebar
       </button>
     );

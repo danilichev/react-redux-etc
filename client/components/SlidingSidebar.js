@@ -8,29 +8,51 @@ const SlidingSidebarActions = {
   CLOSE_SIDEBAR: 'CLOSE_SIDEBAR',
   SHOW_NEXT_SLIDE: 'SHOW_NEXT_SLIDE',
   SHOW_PREV_SLIDE: 'SHOW_PREV_SLIDE'
-}
+};
+
+const transitionConfig = {
+ 	TIMEOUT: 300,
+ 	TO_LEFT: 'transition-left',
+ 	TO_RIGHT: 'transition-right'
+}; 
 
 class SlidingSidebar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.TRANSITION_TIMEOUT = 300;
-    this.TRANSITION_TO_LEFT = 'transition-left';
-    this.TRANSITION_TO_RIGHT = 'transition-right';
-
     this.actionTypes = SlidingSidebarActions;
+    this.transition = transitionConfig;
 
     this.state = {
-      isSidebarOpen: false,
-      slides: [],
-      slideTransition: this.TRANSITION_TO_RIGHT
-    }
+    	slides: [],
+    	slideTransition: this.transition.TO_RIGHT
+    };
 
+    this._pushSlide = this._pushSlide.bind(this);
+    this._popSlide =this._popSlide.bind(this);
     this._getLastSlide = this._getLastSlide.bind(this);
-    this._openSidebar = this._openSidebar.bind(this);
-    this._closeSidebar = this._closeSidebar.bind(this);
-    this._showNextSlide = this._showNextSlide.bind(this);
-    this._showPrevSlide =this._showPrevSlide.bind(this);
+    this._cleanSlides = this._cleanSlides.bind(this);
+    this._isSidebarOpen = this._isSidebarOpen.bind(this);
+  }
+
+  _pushSlide(slide) {
+    const slides = this.state.slides;
+    const newSlide = Object.assign(slide, { key: slides.length });
+
+    this.setState({ 
+    	slides: slides.concat(newSlide),
+    	slideTransition: slides.length === 0 ? this.transition.TO_RIGHT : this.transition.TO_LEFT
+    });
+  }
+
+  _popSlide() {
+    const slides = this.state.slides.slice();
+    slides.pop();
+
+    this.setState({ 
+    	slides,
+    	slideTransition: slides.length === 0 ? this.transition.TO_LEFT : this.transition.TO_RIGHT
+    });
   }
 
   _getLastSlide() {
@@ -38,68 +60,34 @@ class SlidingSidebar extends React.Component {
     return slides.length > 0 ? slides[slides.length - 1] : null;
   }
 
-  _openSidebar(slide) {
-    this.setState({
-      isSidebarOpen: true,
-    });
-
-    this._showNextSlide(slide, this.TRANSITION_TO_RIGHT);
-  }
-
-  _closeSidebar() {
-    this.setState({
+  _cleanSlides() {
+  	this.setState({
       slides: [],
-      slideTransition: this.TRANSITION_TO_LEFT
-    });
-
-    setTimeout(() => this.setState({
-      isSidebarOpen: false
-    }), this.TRANSITION_TIMEOUT);
-  }
-
-  _showNextSlide(slide, slideTransition = this.TRANSITION_TO_LEFT) {
-    const slides = this.state.slides;
-    const newSlide = Object.assign(slide, { key: slides.length });
-
-    this.setState({
-      slides: slides.concat(newSlide),
-      slideTransition
+      slideTransition: this.transition.TO_LEFT
     });
   }
 
-  _showPrevSlide() {
-    const slides = this.state.slides.slice();
-
-    if (slides.length = 0) {
-      this._closeSidebar();
-      return;
-    }
-
-    slides.pop();
-
-    this.setState({
-      slides,
-      slideTransition: this.TRANSITION_TO_RIGHT 
-    });
+  _isSidebarOpen() {
+  	return this.state.slides.length > 0;
   }
 
   componentWillReceiveProps(nextProps) {
     const { action, nextSlide } = nextProps;
     const actions = this.actionTypes;
-    const isSidebarOpen = this.state.isSidebarOpen;
+    const isSidebarOpen = this._isSidebarOpen();
 
     switch(action) {
       case actions.OPEN_SIDEBAR:
-        !isSidebarOpen && this._openSidebar(nextSlide);
+        !isSidebarOpen && this._pushSlide(nextSlide);
         break;    
       case actions.CLOSE_SIDEBAR:
-        isSidebarOpen && this._closeSidebar();
+        isSidebarOpen && this._cleanSlides();
         break;
       case actions.SHOW_NEXT_SLIDE:
-        isSidebarOpen && this._showNextSlide(nextSlide);
+        isSidebarOpen && this._pushSlide(nextSlide);
         break;
       case actions.SHOW_PREV_SLIDE:
-        isSidebarOpen && this._showPrevSlide();
+        isSidebarOpen && this._popSlide();
         break;
     }
   }
@@ -108,19 +96,14 @@ class SlidingSidebar extends React.Component {
     const slide = this._getLastSlide();
 
     return (
-      <div className={`sliding-sidebar ${this.state.isSidebarOpen ? 'open' : ''}`}>
+      <div className={`sliding-sidebar ${this._isSidebarOpen() ? 'open' : 'close'}`}>
         <ReactCSSTransitionGroup
         	component="div"
         	className="slider-wrapper"
           transitionName={this.state.slideTransition} 
-          transitionEnterTimeout={this.TRANSITION_TIMEOUT} 
-          transitionLeaveTimeout={this.TRANSITION_TIMEOUT}>
-          {slide ? 
-            <Slide {...slide}>
-              {slide.content}
-            </Slide> : 
-            null
-          }
+          transitionEnterTimeout={this.transition.TIMEOUT} 
+          transitionLeaveTimeout={this.transition.TIMEOUT}>
+          {slide ? <Slide {...slide}>{slide.content}</Slide> : null}
         </ReactCSSTransitionGroup>
       </div>
     );
