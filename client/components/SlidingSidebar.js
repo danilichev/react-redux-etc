@@ -5,7 +5,9 @@ import './SlidingSidebar.less';
 
 const SlidingSidebarActions = {
   OPEN_SIDEBAR: 'OPEN_SIDEBAR',
-  CLOSE_SIDEBAR: 'CLOSE_SIDEBAR'
+  CLOSE_SIDEBAR: 'CLOSE_SIDEBAR',
+  SHOW_NEXT_SLIDE: 'SHOW_NEXT_SLIDE',
+  SHOW_PREV_SLIDE: 'SHOW_PREV_SLIDE'
 }
 
 class SlidingSidebar extends React.Component {
@@ -28,6 +30,7 @@ class SlidingSidebar extends React.Component {
     this._openSidebar = this._openSidebar.bind(this);
     this._closeSidebar = this._closeSidebar.bind(this);
     this._showNextSlide = this._showNextSlide.bind(this);
+    this._showPrevSlide =this._showPrevSlide.bind(this);
   }
 
   _getLastSlide() {
@@ -64,14 +67,40 @@ class SlidingSidebar extends React.Component {
     });
   }
 
+  _showPrevSlide() {
+    const slides = this.state.slides.slice();
+
+    if (slides.length = 0) {
+      this._closeSidebar();
+      return;
+    }
+
+    slides.pop();
+
+    this.setState({
+      slides,
+      slideTransition: this.TRANSITION_TO_RIGHT 
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
     const { action, nextSlide } = nextProps;
+    const actions = this.actionTypes;
     const isSidebarOpen = this.state.isSidebarOpen;
 
-    if (action === this.actionTypes.OPEN_SIDEBAR && !isSidebarOpen) {
-      this._openSidebar(nextSlide);
-    } else if (action === this.actionTypes.CLOSE_SIDEBAR && isSidebarOpen) {
-      this._closeSidebar();
+    switch(action) {
+      case actions.OPEN_SIDEBAR:
+        !isSidebarOpen && this._openSidebar(nextSlide);
+        break;    
+      case actions.CLOSE_SIDEBAR:
+        isSidebarOpen && this._closeSidebar();
+        break;
+      case actions.SHOW_NEXT_SLIDE:
+        isSidebarOpen && this._showNextSlide(nextSlide);
+        break;
+      case actions.SHOW_PREV_SLIDE:
+        isSidebarOpen && this._showPrevSlide();
+        break;
     }
   }
 
