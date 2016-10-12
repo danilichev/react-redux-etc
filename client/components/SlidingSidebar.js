@@ -11,7 +11,7 @@ const SlidingSidebarActions = {
 };
 
 const transitionConfig = {
- 	TIMEOUT: 300,
+ 	TIMEOUT: 500,
  	TO_LEFT: 'transition-left',
  	TO_RIGHT: 'transition-right'
 }; 
@@ -103,7 +103,7 @@ class SlidingSidebar extends React.Component {
           transitionName={this.state.slideTransition} 
           transitionEnterTimeout={this.transition.TIMEOUT} 
           transitionLeaveTimeout={this.transition.TIMEOUT}>
-          {slide ? <Slide {...slide}>{slide.content}</Slide> : null}
+          {slide ? <Slide {...slide} goBack={this._popSlide}>{slide.content}</Slide> : null}
         </ReactCSSTransitionGroup>
       </div>
     );

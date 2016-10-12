@@ -14,24 +14,45 @@ class App extends React.Component {
   }
 
   render() {
-    const openSidebarButton = (
-      <button 
-        onClick={() => this.setState({
-          action: SlidingSidebarActions.OPEN_SIDEBAR,
-          nextSlide: {
-            title: 'Slide#1',
-            content: '...'
-          }
-        })}>
-        Open Sidebar
-      </button>
-    );
-
     const closeSidebarButton = (
       <button onClick={() => this.setState({
           action: SlidingSidebarActions.CLOSE_SIDEBAR
         })}>
         Close Sidebar
+      </button>
+    );
+
+    const getButtomToNextSlide = (nextSlide) => (
+      <button onClick={() => this.setState({
+          action: SlidingSidebarActions.SHOW_NEXT_SLIDE,
+          nextSlide
+        })}>
+        {`Go to ${nextSlide.title}`}
+      </button>
+    );
+
+    const thirdSlide = {
+      title: 'Slide 3',
+      content: closeSidebarButton
+    }
+
+    const secondSlide = {
+      title: 'Slide 2',
+      content: getButtomToNextSlide(thirdSlide)
+    }    
+
+    const firstSlide = {
+      title: 'Slide 1',
+      content: getButtomToNextSlide(secondSlide)
+    }
+
+    const openSidebarButton = (
+      <button 
+        onClick={() => this.setState({
+          action: SlidingSidebarActions.OPEN_SIDEBAR,
+          nextSlide: firstSlide
+        })}>
+        Open Sidebar
       </button>
     );
 
