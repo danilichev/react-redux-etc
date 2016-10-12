@@ -1,5 +1,5 @@
 @sidebar-width: 320px;
-@transition: transform 500ms ease-in-out 0ms;
+@transition: transform 400ms ease-in-out;
 
 .sliding-sidebar {
 	position: absolute;
@@ -8,11 +8,9 @@
 	width: 0;
 	height: 100%;
   overflow: hidden;
-  transition: width 500ms; 
 
   &.open {
     width: @sidebar-width;
-    transition: width 0ms;
   }
 
   .slider-wrapper {
@@ -30,33 +28,21 @@
     }
   }
 
-  .transition-right-enter {
+  .transition-open-enter {
     transform: translate3d(-@sidebar-width, 0, 0);
     transition: @transition;
   
-    &.transition-right-enter-active {
+    &.transition-open-enter-active {
       transform: translate3d(0, 0, 0);
     }
   }
   
-  .transition-right-leave.transition-right-leave-active,
-  .transition-right-leave {
-    transform: translate3d(@sidebar-width, 0, 0);
-    transition: @transition;
-  }
-
-  .transition-left-enter {
-    transform: translate3d(@sidebar-width, 0, 0);
+  .transition-close-leave {
+    transform: translate3d(0, 0, 0);
     transition: @transition;
   
-    &.transition-left-enter-active {
-      transform: translate3d(0, 0, 0);
+    &.transition-close-leave-active {
+      transform: translate3d(-@sidebar-width, 0, 0);
     }
-  }
-  
-  .transition-left-leave.transition-left-leave-active,
-  .transition-left-leave {
-    transform: translate3d(-@sidebar-width, 0, 0);
-    transition: @transition;
   }
 }
