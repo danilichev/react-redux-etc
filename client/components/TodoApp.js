@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { store } from '../store/store';
-import { FilterLink } from './FilterLink';
 import TodoList from './TodoList';
+import AddTodo from './AddTodo';
+import Footer from './Footer';
 
 let todoId = 0;
 
@@ -23,17 +24,15 @@ class TodoApp extends Component {
 
     return (
       <div className="todo-app">
-        <input ref={node => this.input = node} />
-        <button onClick={() => {
-          store.dispatch({
-            type: 'ADD_TODO',
-            id: todoId++,
-            text: this.input.value
-          });
-          this.input.value = '';
-        }}>
-          Add Todo
-        </button>
+        <AddTodo 
+          onAddClick={(text) => {
+            store.dispatch({
+              type: 'ADD_TODO',
+              id: todoId++,
+              text
+            });
+          }}
+        />        
         <TodoList 
           todos={visibleTodos}
           onClickTodo={(id) => {
@@ -43,30 +42,15 @@ class TodoApp extends Component {
             });
           }}
         />
-        <p>
-          Show: 
-          {' '}
-          <FilterLink 
-            filter="SHOW_ALL" 
-            currentFilter={visibilityFilter}
-          >
-            All
-          </FilterLink>
-          {' '}
-          <FilterLink 
-            filter="SHOW_COMPLETED" 
-            currentFilter={visibilityFilter}
-          >
-            Completed
-          </FilterLink>
-          {' '}
-          <FilterLink 
-            filter="SHOW_ACTIVE" 
-            currentFilter={visibilityFilter}
-          >
-            Active
-          </FilterLink>
-        </p>
+        <Footer 
+          visibilityFilter={visibilityFilter}
+          onFilterClick={filter => {
+            store.dispatch({
+              type: 'SET_VISIBILITY_FILTER',
+              filter
+            });
+          }}
+        />
       </div>
     );
   }
