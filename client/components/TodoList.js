@@ -21,4 +21,6 @@ const TodoList = ({ todos, onClickTodo}) => (
   </ul>
 );
 
-export default TodoList;
+export {
+  TodoList
+};
