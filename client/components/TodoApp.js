@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { store } from '../store/store';
 import TodoList from './TodoList';
 import AddTodo from './AddTodo';
-import Footer from './Footer';
+import { Footer } from './Footer';
 
 let todoId = 0;
 
@@ -37,15 +37,7 @@ const TodoApp = ({ todos, visibilityFilter }) => (
         });
       }}
     />
-    <Footer 
-      visibilityFilter={visibilityFilter}
-      onFilterClick={filter => {
-        store.dispatch({
-          type: 'SET_VISIBILITY_FILTER',
-          filter
-        });
-      }}
-    />
+    <Footer />
   </div>
 );
 

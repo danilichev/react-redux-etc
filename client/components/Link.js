@@ -1,8 +1,7 @@
 import React from 'react';
-import { store } from '../store/store';
 
-const FilterLink = ({ filter, currentFilter, children, onClick }) => {
-  if (filter === currentFilter) {
+const Link = ({ active, children, onClick }) => {
+  if (active) {
     return <span>{children}</span>
   }
 
@@ -11,7 +10,7 @@ const FilterLink = ({ filter, currentFilter, children, onClick }) => {
       href="#" 
       onClick={(event) => {
         event.preventDefault();
-        onClick(filter);
+        onClick();
       }}
     >
       {children}
@@ -20,5 +19,5 @@ const FilterLink = ({ filter, currentFilter, children, onClick }) => {
 };
 
 export {
-  FilterLink
+  Link
 };
