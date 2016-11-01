@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { addTodo } from '../actions/todoActions';
 
 let todoId = 0;
 
@@ -11,11 +12,7 @@ let AddTodo = ({ dispatch }) => {
       <input ref={node => input = node} />
       <button 
         onClick={() => {
-          dispatch({
-            type: 'ADD_TODO',
-            id: todoId++,
-            text: input.value
-          });
+          dispatch(addTodo(input.value));
           input.value = '';
         }}
       >
