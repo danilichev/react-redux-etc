@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { store } from '../store/store';
-import VisibleTodoList from '../containers/VisibleTodoList';
-import AddTodo from './AddTodo';
+import { VisibleTodoList } from '../containers/VisibleTodoList';
+import { AddTodo } from './AddTodo';
 import { Footer } from './Footer';
 
 const TodoApp = ({ todos, visibilityFilter }) => (
